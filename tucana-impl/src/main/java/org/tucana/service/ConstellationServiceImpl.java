@@ -1,5 +1,6 @@
 package org.tucana.service;
 
+import org.springframework.stereotype.Service;
 import org.tucana.domain.Constellation;
 import org.tucana.repository.ConstellationRepository;
 
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Implementation of the ConstellationService interface.
  */
+@Service
 public class ConstellationServiceImpl implements ConstellationService {
     @Inject
     private ConstellationRepository constellationRepository;

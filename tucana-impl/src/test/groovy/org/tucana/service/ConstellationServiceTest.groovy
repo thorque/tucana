@@ -1,8 +1,9 @@
+package org.tucana.service
+
 import org.junit.Assert
 import org.junit.Test
-import org.tucana.domain.ConstellationImpl
+import org.tucana.domain.Constellation
 import org.tucana.repository.ConstellationRepository
-import org.tucana.service.ConstellationServiceImpl
 
 /**
  * Testcases for the ConstellationServiceImpl
@@ -13,7 +14,7 @@ class ConstellationServiceTest {
     final void "test if ConstellationService returns a list with constellations properly"() {
         def result = []
         2.times {
-            result << new ConstellationImpl(code: "cd$it")
+            result << new Constellation(code: "cd$it")
         }
         def repository = [findAll: {result}] as ConstellationRepository
 
