@@ -29,4 +29,18 @@ class ConstellationServiceTest {
         Assert.assertEquals(0,
                 new ConstellationServiceImpl(constellationRepository: repository).findAllConstellations().size())
     }
+
+    @Test
+    final void "test if persisting of a constellation object does work"() {
+        def repository = [save: {def constellation -> constellation.id = 1; return constellation}] as ConstellationRepository
+
+        Assert.assertEquals(1,
+                new ConstellationServiceImpl(constellationRepository: repository).persistConstellation(new
+                Constellation()).id)
+    }
+
+    @Test
+    final void "test if anyone tries to persist a null constellation"() {
+        Assert.assertNull(new ConstellationServiceImpl().persistConstellation(null))
+    }
 }

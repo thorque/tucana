@@ -30,4 +30,13 @@ public class ConstellationServiceImpl implements ConstellationService {
         }
         return constellations;
     }
+
+    public Constellation persistConstellation(Constellation constellation2Persist) {
+        if (constellation2Persist == null) {
+            return null;
+        }
+
+        constellationRepository.save(constellation2Persist);
+        return constellation2Persist;
+    }
 }
