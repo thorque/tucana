@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.tucana</groupId>
 	<artifactId>tucana</artifactId>
@@ -8,6 +8,7 @@
 		<module>tucana-api</module>
 		<module>tucana-impl</module>
 		<module>tucana-integration</module>
+		<module>tucana-importer</module>
 	</modules>
 	<packaging>pom</packaging>
 
@@ -91,19 +92,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>all-projects</id>
-			<modules>
-				<module>tucana-importer</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>integration</id>
-			<modules>
-				<module>tucana-integration</module>
-			</modules>
-		</profile>
-	</profiles>
 </project>
