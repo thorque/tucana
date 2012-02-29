@@ -54,6 +54,25 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <groupId>org.apache.maven.plugins</groupId>
             </plugin>
+            <plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<version>2.12</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+						<skipTests>false</skipTests>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
         </plugins>
         <pluginManagement>
         	<plugins>
