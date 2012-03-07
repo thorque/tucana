@@ -1,0 +1,113 @@
+@CHARSET "UTF-8";
+
+body {
+	background: #404040 url(../images/background.png);
+	color: white;
+	font-family: 'Ubuntu', sans-serif;
+}
+
+#menubar{
+	height: 70px;
+	width: 1024px;
+	margin: 0 auto;
+}
+
+#menubar .logo{
+	background: url(../images/logo.png) no-repeat;
+	width: 230px;
+	height: 60px;
+	padding-top: 0px;
+	display: inline-block;
+}
+
+#menubar .entries{
+	position: relative;
+	top: 25px;
+	display: inline-block;
+	background: url(../images/menubar/line.png) repeat-x;
+}
+
+
+#menubar .entries ul li{
+	list-style: none;
+	padding-right: 20px;
+	height: 30px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#menubar .entries ul {
+	padding-top: 0px;
+}
+
+#menubar .entries ul li.constellations{
+	background: url(../images/menubar/constellations.png) no-repeat;
+	width: 154px;
+}
+
+#menubar .entries ul li.solarsystem{
+	background: url(../images/menubar/solarsystem.png) no-repeat;
+	width: 125px;
+	opacity : 0.4;
+    filter: alpha(opacity=40);
+}
+
+#menubar .entries ul li.starcatalogs{
+	background: url(../images/menubar/starcatalogs.png) no-repeat;
+	width: 145px;
+	opacity : 0.4;
+    filter: alpha(opacity=40);
+}
+
+#menubar .entries ul li.editorial{
+	background: url(../images/menubar/editorial.png) no-repeat;
+	width: 96px;
+	opacity : 0.4;
+    filter: alpha(opacity=40);
+}
+
+#menubar .entries ul li.empty{
+	width: 100px;
+}
+
+#content{
+	width: 1024px;
+	margin: 0 auto;
+}
+
+#content .datatable{
+	width: 99%;
+	/* border-collapse: collapse; */
+	border: 2px solid rgb(195,0,0);
+	border-radius: 15px;
+	margin: auto;
+	border-spacing: 5px;
+	
+}
+
+#content .datatable thead th{
+	text-align: left;
+	padding: 5px;
+	background-color: #303030;
+	border-collapse: collapse;
+	white-space: nowrap;
+}
+
+.datatable tbody tr.even{
+	background-color: #333333;
+}
+
+.datatable tbody td{
+	padding: 3px;
+	text-align: left;
+	white-space: nowrap;
+}
+
+.tooltip {
+	display:none;
+	background: #404040;
+	border: 2px solid rgb(195,0,0);
+	border-radius: 15px;
+	padding: 5px;
+	font-size:  0.8em;
+}

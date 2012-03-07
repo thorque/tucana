@@ -9,6 +9,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>tucana-impl</module>
 		<module>tucana-integration</module>
 		<module>tucana-importer</module>
+		<module>tucana-web</module>
 	</modules>
 	<packaging>pom</packaging>
 

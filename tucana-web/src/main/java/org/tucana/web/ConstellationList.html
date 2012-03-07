@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+<meta charset="UTF-8">
+
+<link href='http://fonts.googleapis.com/css?family=Ubuntu'
+	rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Chelsea+Market'
+	rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="design/main-design.css" type="text/css"
+	media="screen" />
+<script src="scripts/jquery.tools.min.js"></script>
+
+<title>TUCANA: The list of constellations</title>
+</head>
+<body>
+
+	<div id="menubar">
+		<span class="logo">&nbsp;</span>
+		<div class="entries">
+			<ul>
+				<li class="constellations"
+					onclick="location.href='constellationList';"
+					wicket:message="title:menubar.constellations.tooltip">&nbsp;</li>
+				<li class="solarsystem"
+					wicket:message="title:menubar.solarsystem.tooltip">&nbsp;</li>
+				<li class="starcatalogs"
+					wicket:message="title:menubar.starcatalogs.tooltip">&nbsp;</li>
+				<li class="empty">&nbsp;</li>
+				<li class="editorial"
+					wicket:message="title:menubar.editorial.tooltip">&nbsp;</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	<br/>
+	<br/>
+
+	<div id="content">
+		<h1 wicket:id="title">Page Title</h1>
+		<table class="datatable">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Genetive Name</th>
+					<th>Code</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr wicket:id="datatable" class="dtt">
+					<td><span wicket:id=c_name>[c_name]</span></td>
+					<td><span wicket:id="c_gen_name">[c_gen_name]</span></td>
+					<td><span wicket:id="c_code">[c_code]</span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+
+
+
+
+	<script>
+		$(" #menubar .entries li[title]").tooltip({
+			position : "bottom center",
+			effect : "fade"
+		});
+	</script>
+
+</body>
+</html>
