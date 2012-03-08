@@ -1,16 +1,23 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>tucana</artifactId>
-    <groupId>org.tucana</groupId>
-    <version>1.0.0-SNAPSHOT</version>
-    <relativePath>..</relativePath>
-  </parent>
-  <artifactId>tucana-functional</artifactId>
-  <name>TUCANA [functional test]</name>
-  
-  	<dependencies>
-  		<dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>tucana</artifactId>
+		<groupId>org.tucana</groupId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>tucana-functional</artifactId>
+	<name>TUCANA [functional test]</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>tucana-web</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>1.8.5</version>
@@ -32,9 +39,9 @@
 			<version>2.0rc3</version>
 			<scope>test</scope>
 		</dependency>
-  	</dependencies>
-  	
-  	<build>
+	</dependencies>
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.gmaven</groupId>
@@ -60,6 +67,57 @@
 						<configuration>
 							<skipTests>false</skipTests>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.2.0</version>
+				<configuration>
+					<container>
+						<containerId>tomcat7x</containerId>
+						<zipUrlInstaller>
+							<url>http://apache.openmirror.de/tomcat/tomcat-7/v7.0.26/bin/apache-tomcat-7.0.26.zip</url>
+						</zipUrlInstaller>
+						<output>${project.build.directory}/cargo/logs/container.log</output>
+						<append>false</append>
+						<log>${project.build.directory}/cargo/logs/cargo.log</log>
+					</container>
+					<configuration>
+						<type>standalone</type>
+						<home>${project.build.directory}/tomcat7x</home>
+						<properties>
+							<cargo.servlet.port>8080</cargo.servlet.port>
+							<cargo.logging>medium</cargo.logging>
+						</properties>
+						<deployables>
+							<deployable>
+								<groupId>org.tucana</groupId>
+								<artifactId>tucana-web</artifactId>
+								<type>war</type>
+								<properties>
+									<context>/tucana-web</context>
+								</properties>
+								<pingURL>http://localhost:8080/tucana-web/</pingURL>
+							</deployable>
+						</deployables>
+					</configuration>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start_server</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop_server</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
