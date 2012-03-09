@@ -15,6 +15,7 @@ class ConstallationListPageTest  extends GebTest{
 	final void "test if the ConstallationListPage returns 88 constellations"(){
 		Browser.drive(getBrowser()) {			
 			to ConstellationListPage			
+			
 			Assert.assertTrue(at(ConstellationListPage))
 			Assert.assertEquals(88, results.size())
 		}

@@ -9,7 +9,7 @@ import geb.Page
  * {@link {@link Page}} to test the ConstellationList
  */
 class ConstellationListPage extends Page {
-	
+
 	/**
 	 * The url of this page
 	 */

@@ -37,16 +37,38 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-htmlunit-driver</artifactId>
 			<version>2.0rc3</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.gmaven</groupId>
-				<artifactId>gmaven-plugin</artifactId>
+				<groupId>org.codehaus.groovy</groupId>
+				<artifactId>groovy-eclipse-compiler</artifactId>
+				<version>2.6.0-01</version>
+				<extensions>true</extensions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<compilerId>groovy-eclipse-compiler</compilerId>
+					<verbose>true</verbose>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-eclipse-compiler</artifactId>
+						<version>2.6.0-01</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<!-- <plugin> <groupId>org.codehaus.gmaven</groupId> <artifactId>gmaven-plugin</artifactId> 
+				<executions> <execution> <id>compile</id> <phase>compile</phase> <goals> 
+				<goal>compile</goal> </goals> <configuration> <providerSelection>1.7</providerSelection> 
+				</configuration> </execution> <execution> <id>test-compile</id> <phase>test-compile</phase> 
+				<goals> <goal>testCompile</goal> </goals> <configuration> <providerSelection>1.7</providerSelection> 
+				</configuration> </execution> </executions> </plugin> -->
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -146,6 +168,7 @@
 										</versionRange>
 										<goals>
 											<goal>testCompile</goal>
+											<goal>compile</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
