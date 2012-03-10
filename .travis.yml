@@ -13,4 +13,3 @@ mysql:
   
 before_script:
 	- "mysql -e «create user tucana@localhost identified by 'tucana';«"
-

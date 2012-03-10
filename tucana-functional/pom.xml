@@ -63,12 +63,6 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<!-- <plugin> <groupId>org.codehaus.gmaven</groupId> <artifactId>gmaven-plugin</artifactId> 
-				<executions> <execution> <id>compile</id> <phase>compile</phase> <goals> 
-				<goal>compile</goal> </goals> <configuration> <providerSelection>1.7</providerSelection> 
-				</configuration> </execution> <execution> <id>test-compile</id> <phase>test-compile</phase> 
-				<goals> <goal>testCompile</goal> </goals> <configuration> <providerSelection>1.7</providerSelection> 
-				</configuration> </execution> </executions> </plugin> -->
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -93,6 +87,70 @@
 				</executions>
 			</plugin>
 			<plugin>
+       			 <groupId>org.codehaus.mojo</groupId>
+        			<artifactId>sql-maven-plugin</artifactId>
+        			<version>1.5</version>
+        			<dependencies>
+        				<dependency>
+        					<groupId>mysql</groupId>
+        					<artifactId>mysql-connector-java</artifactId>
+        					<version>5.1.16</version>
+        				</dependency>
+        			</dependencies>
+        			<configuration>
+          			<driver>com.mysql.jdbc.Driver</driver>
+					<url>jdbc:mysql://localhost/tucana_func</url>
+					<username>root</username>
+					<password>42Orionis</password>
+					
+        			</configuration>
+        			<executions>
+        				<execution>
+           				 <id>create-db</id>
+            				<phase>pre-integration-test</phase>
+            				<goals>
+              				<goal>execute</goal>
+            				</goals>
+            				<configuration>
+            					<url>jdbc:mysql://localhost/mysql</url>
+              				<autocommit>true</autocommit>
+              				<sqlCommand>
+              					create database IF NOT EXISTS tucana_func;
+              					GRANT ALL ON tucana_func.* TO 'tucana'@'localhost';
+              				</sqlCommand>
+            				</configuration>
+          			</execution>
+          			<execution>
+           				 <id>insert-data</id>
+            				<phase>pre-integration-test</phase>
+            				<goals>
+              				<goal>execute</goal>
+            				</goals>
+            				<configuration>
+            					<username>tucana</username>
+							<password>tucana</password>
+              				<autocommit>true</autocommit>
+              				<srcFiles>
+              					<srcFile>${basedir}/../tucana-integration/src/test/resources/database/schema_mysql.sql</srcFile>
+              					<srcFile>${basedir}/../tucana-integration/src/test/resources/database/constellation.sql</srcFile>
+              				</srcFiles>
+            				</configuration>
+          			</execution>
+          			<execution>
+           				 <id>drop-db</id>
+            				<phase>post-integration-test</phase>
+            				<goals>
+              				<goal>execute</goal>
+            				</goals>
+            				<configuration>
+            					<url>jdbc:mysql://localhost/mysql</url>
+              				<autocommit>true</autocommit>
+              				<sqlCommand>drop database tucana_func</sqlCommand>
+            				</configuration>
+          			</execution>
+        			</executions>
+        		</plugin>
+			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>
 				<version>1.2.0</version>
@@ -105,6 +163,9 @@
 						<output>${project.build.directory}/cargo/logs/container.log</output>
 						<append>false</append>
 						<log>${project.build.directory}/cargo/logs/cargo.log</log>
+						<systemProperties>
+    							<db_suffix>_func</db_suffix>
+  						</systemProperties>
 					</container>
 					<configuration>
 						<type>standalone</type>
