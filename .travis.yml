@@ -11,5 +11,5 @@ mysql:
   username: root
   encoding: utf8
   
-before_script:
-	- "mysql -e «create user tucana@localhost identified by 'tucana';«"
+#before_script:
+#	- "mysql -e 'create user tucana@localhost identified by \'tucana\';'"
