@@ -27,8 +27,18 @@ class ConstallationListPageTest  extends GebTest{
 			to ConstellationListPage
 			
 			Assert.assertTrue(at(ConstellationListPage))
-			Assert.assertEquals("and", code_of_first_result.text())
-			Assert.assertEquals("vul", code_of_last_result.text())
+			Assert.assertEquals("AND", code_of_first_result.text())
+			Assert.assertEquals("VUL", code_of_last_result.text())
+		}
+	}
+	
+	@Test
+	final void "check whether the code is shown in uppercase letters only"(){
+		Browser.drive(getBrowser()) {
+			to ConstellationListPage
+			
+			Assert.assertTrue(at(ConstellationListPage))
+			Assert.assertEquals("AND", code_of_first_result.text())
 		}
 	}
 

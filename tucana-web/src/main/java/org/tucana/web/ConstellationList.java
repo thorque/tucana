@@ -77,7 +77,7 @@ public class ConstellationList extends WebPage {
 		
 		for (Constellation constellation : constellations) {
 			AbstractItem item = new AbstractItem(repeatingView.newChildId());
-			item.add(new Label("c_code", constellation.getCode()));
+			item.add(new Label("c_code", constellation.getCode().toUpperCase()));
 			item.add(new Label("c_name", constellation.getName()));
 			item.add(new Label("c_gen_name", constellation.getGenitiveName()));
 
