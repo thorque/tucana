@@ -35,5 +35,13 @@ class ConstellationListPage extends Page {
 			datatable.$("tbody tr")
 		}
 		
+		code_of_first_result{
+			results[0].find("td")[2].find("span")
+		}
+		
+		code_of_last_result{
+			results[results.size()-1].find("td")[2].find("span")
+		}
+		
 	}
 }

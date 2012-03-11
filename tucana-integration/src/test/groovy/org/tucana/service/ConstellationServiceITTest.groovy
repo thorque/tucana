@@ -19,4 +19,12 @@ class ConstellationServiceITTest {
     public final void "test the findAllConstellation service method"() {
         Assert.assertEquals(88, service.findAllConstellations().size())
     }
+	
+	@Test
+	final void "is the list of constellations ordered alphabetically"(){
+		def result = service.findAllConstellations()
+		
+		Assert.assertEquals("and", result[0].code)
+		Assert.assertEquals("vul", result[result.size()-1].code)
+	}
 }

@@ -20,5 +20,16 @@ class ConstallationListPageTest  extends GebTest{
 			Assert.assertEquals(88, results.size())
 		}
 	}
+	
+	@Test
+	final void "check whether the list of constellation is in alphabetically order"(){
+		Browser.drive(getBrowser()) {
+			to ConstellationListPage
+			
+			Assert.assertTrue(at(ConstellationListPage))
+			Assert.assertEquals("and", code_of_first_result.text())
+			Assert.assertEquals("vul", code_of_last_result.text())
+		}
+	}
 
 }

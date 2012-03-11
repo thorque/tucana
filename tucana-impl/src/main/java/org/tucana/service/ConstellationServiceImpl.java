@@ -1,5 +1,7 @@
 package org.tucana.service;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.tucana.domain.Constellation;
 import org.tucana.repository.ConstellationRepository;
@@ -24,7 +26,7 @@ public class ConstellationServiceImpl implements ConstellationService {
     public List<Constellation> findAllConstellations() {
         List<Constellation> constellations;
 
-        constellations = constellationRepository.findAll();
+        constellations = constellationRepository.findAll(new Sort(Direction.ASC, "code"));
         if (constellations == null) {
             constellations = new ArrayList<Constellation>(0);
         }
