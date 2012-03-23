@@ -9,6 +9,7 @@ CREATE TABLE CONSTELLATIONS(
   author varchar(20) not null,
   authorYear INTEGER not null,
   area double not null,
+  description LONGVARCHAR,
   primary key (id)
 );
 

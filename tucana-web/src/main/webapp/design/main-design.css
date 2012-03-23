@@ -6,6 +6,15 @@ body {
 	font-family: 'Ubuntu', sans-serif;
 }
 
+a{
+	color: rgb(195,0,0);
+	text-decoration: none;
+}
+
+a:HOVER{
+	text-decoration:  underline;
+}
+
 #menubar{
 	height: 70px;
 	width: 1024px;
@@ -100,7 +109,16 @@ body {
 .datatable tbody td{
 	padding: 3px;
 	text-align: left;
+}
+
+.detailview tbody tr{
+	vertical-align: top;
+}
+
+.detailview tbody th{
+	text-align: left;
 	white-space: nowrap;
+	background-color: #333333;
 }
 
 .tooltip {

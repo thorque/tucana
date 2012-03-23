@@ -1,8 +1,8 @@
 package org.tucana.service;
 
-import org.tucana.domain.Constellation;
-
 import java.util.List;
+
+import org.tucana.domain.Constellation;
 
 /**
  * This service encapsulates all public method need to work with constellations
@@ -17,4 +17,11 @@ public interface ConstellationService {
      * @return A list with all Constellation
      */
     List<Constellation> findAllConstellations();
+    
+    /**
+     * With this service method you get access to one constellation with the given code.
+     * @param code The code of the constellation you want to get
+     * @return The {@link Constellation} with the given code
+     */
+    Constellation findConstellationByCode(final String code);
 }

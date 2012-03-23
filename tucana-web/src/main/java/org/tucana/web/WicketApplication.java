@@ -36,5 +36,6 @@ public class WicketApplication extends WebApplication {
 				applicationContext, true));
 		
         mountPage("/constellationList", ConstellationList.class);
+        mountPage("/constellationDetail", ConstellationDetail.class);
 	}
 }

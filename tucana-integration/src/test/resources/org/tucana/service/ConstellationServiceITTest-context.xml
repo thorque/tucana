@@ -10,6 +10,7 @@
     <jdbc:embedded-database id="dataSource" type="HSQL">
         <jdbc:script location="database/schema.sql"/>
         <jdbc:script location="database/constellation.sql"/>
+        <jdbc:script location="database/constellation_details.sql"/>
     </jdbc:embedded-database>
 
 

@@ -25,7 +25,12 @@
 		<dependency>
 			<groupId>org.codehaus.geb</groupId>
 			<artifactId>geb-junit4</artifactId>
-			<version>0.6.2</version>
+			<version>0.6.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.geb</groupId>
+			<artifactId>geb-easyb</artifactId>
+			<version>0.6.3</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

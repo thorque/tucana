@@ -41,5 +41,16 @@ class ConstallationListPageTest  extends GebTest{
 			Assert.assertEquals("AND", code_of_first_result.text())
 		}
 	}
+	
+	@Test
+	final void "find detail link"(){
+		Browser.drive(getBrowser()){
+			to ConstellationListPage
+			
+			Assert.assertTrue(at(ConstellationListPage))
+			Assert.assertEquals("Details", detail_link("ORI").text())
+			Assert.assertEquals("constellationDetail?code=ori", detail_link("ORI").@href)
+		}
+	}
 
 }

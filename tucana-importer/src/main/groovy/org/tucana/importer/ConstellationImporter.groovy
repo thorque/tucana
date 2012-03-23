@@ -16,8 +16,8 @@ import org.tucana.service.ConstellationServiceImpl
  */
 class ConstellationImporter {
     private String url = "http://de.wikipedia.org/wiki/Liste_der_Sternbilder"
-    private File sqlFile = new File("./tucana-importer/target/gen-data/data.sql")
-    private File targetFile = new File("./tucana-integration/src/test/resources/database/constellation.sql")
+    private File sqlFile = new File("./target/gen-data/data.sql")
+    private File targetFile = new File("../tucana-integration/src/test/resources/database/constellation.sql")
 
     /**
      * Main entry point of this importer. No args are needed, because this importer is self-configuring.
@@ -36,6 +36,8 @@ class ConstellationImporter {
         if (!sqlFile.exists()) {
             sqlFile.parentFile.mkdirs()
             sqlFile.createNewFile()
+        }else{
+			sqlFile.text = ""
         }
 
         rows.eachWithIndex { row, c ->
@@ -92,7 +94,11 @@ class ConstellationImporter {
 
         if (!row.@style.text()) {
             def cells = row.td
-            Constellation constellation = new Constellation()
+            Constellation constellation = service.findConstellationByCode(cells[3].text().toLowerCase())
+			if (!constellation){
+				constellation = new Constellation()
+			}
+			
             constellation.name = cells[1]
             constellation.genitiveName = cells[2]
             constellation.code = cells[3].text().toLowerCase()
@@ -103,17 +109,17 @@ class ConstellationImporter {
 
             println "${c}.: $constellation"
             service.persistConstellation constellation
-            createSQLDataScripts(constellation, sqlFile)
+            createSQLDataScripts(constellation)
 
         }
     }
 
-    private void createSQLDataScripts(Constellation c, File sqlScript) {
+    private void createSQLDataScripts(Constellation c) {
         String sql = ""
 
         sql = "INSERT INTO CONSTELLATIONS VALUES(null, '$c.name', '$c.code', '$c.genitiveName', '$c.hemisphere', " +
-                "'$c.author', $c.authorYear, $c.area );"
-        sqlScript.text += "\n" + sql
+                "'$c.author', $c.authorYear, $c.area, null );"
+        sqlFile.text += "\n" + sql
 
     }
 

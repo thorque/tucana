@@ -21,6 +21,7 @@ class ConstellationListPage extends Page {
 	static at = { title == "TUCANA: The list of constellations" }
 
 	static content = {
+
 		/**
 		 * Returns the datatable containing the list of all constellations
 		 */
@@ -41,6 +42,12 @@ class ConstellationListPage extends Page {
 		
 		code_of_last_result{
 			results[results.size()-1].find("td")[2].find("span")
+		}
+		
+		detail_link{code ->
+			results.find{
+				it.find("td")[2].find("span").text() == code
+			}.find("td")[3].find("a")
 		}
 		
 	}

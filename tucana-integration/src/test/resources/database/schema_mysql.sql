@@ -9,6 +9,7 @@ CREATE TABLE constellations (
 	author varchar(255) DEFAULT NULL,
   	authorYear int(11) NOT NULL,
   	area double NOT NULL,
+  	description longtext,
 	PRIMARY KEY (`id`)
 )
 

@@ -3,16 +3,17 @@
  */
 package org.tucana.web;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.AbstractItem;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -21,11 +22,11 @@ import org.tucana.service.ConstellationService;
 
 /**
  * @author kamann
- *
+ * 
  */
 public class ConstellationList extends WebPage {
 	private static final long serialVersionUID = 894038876771030980L;
-	
+
 	@SpringBean
 	private ConstellationService constellationService;
 
@@ -48,10 +49,10 @@ public class ConstellationList extends WebPage {
 	public ConstellationList(PageParameters parameters) {
 		super(parameters);
 	}
-	
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.apache.wicket.Component#onInitialize()
 	 */
 	@Override
@@ -66,20 +67,19 @@ public class ConstellationList extends WebPage {
 		repeatingView = new RepeatingView("datatable");
 
 		int index = 0;
-		List<Constellation> constellations = constellationService.findAllConstellations();
-		//add(new Label("c_count", String.valueOf(constellations.size())));
-		
-		add(new Label("title", 
-				new StringResourceModel("content.title", null, 
-						new Object[]{String.valueOf(constellations.size())})));
-		
-		
-		
+		List<Constellation> constellations = constellationService
+				.findAllConstellations();
+
+		add(new Label("title", new StringResourceModel("content.title", null,
+				new Object[] { String.valueOf(constellations.size()) })));
+
 		for (Constellation constellation : constellations) {
 			AbstractItem item = new AbstractItem(repeatingView.newChildId());
 			item.add(new Label("c_code", constellation.getCode().toUpperCase()));
 			item.add(new Label("c_name", constellation.getName()));
 			item.add(new Label("c_gen_name", constellation.getGenitiveName()));
+
+			item.add(getConstellationDetailLink(constellation));
 
 			final int idx = index;
 			item.add(AttributeModifier.replace("class",
@@ -96,6 +96,32 @@ public class ConstellationList extends WebPage {
 			repeatingView.add(item);
 		}
 		add(repeatingView);
+	}
+
+	private BookmarkablePageLink<ConstellationDetail> getConstellationDetailLink(
+			final Constellation constellation) {
+		PageParameters params = new PageParameters();
+		BookmarkablePageLink<ConstellationDetail> link;
+
+		params.add("code", constellation.getCode());
+		link = new BookmarkablePageLink<ConstellationDetail>("c_detail_link",
+				ConstellationDetail.class, params);
+
+		link.add(AttributeModifier.replace("title",
+				new AbstractReadOnlyModel<String>() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public String getObject() {
+						return MessageFormat
+								.format(getLocalizer()
+										.getString(
+												"content.datatable.body.detail.tooltip",
+												ConstellationList.this),
+										constellation.getName());
+					}
+				}));
+		return link;
 	}
 
 }

@@ -3,10 +3,12 @@ package org.tucana.domain;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /**
  * A constellation is a group of stars with a unique name. There are 88 constellations defined by the IAU.
@@ -44,6 +46,11 @@ public class Constellation {
      */
     @Getter
     private String genitiveName;
+    
+    @Getter
+    @Column(nullable=true)
+    @Lob
+    private String description;
 
     /**
      * The 88 constellation can be divided into 3 groups:

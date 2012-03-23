@@ -11,10 +11,9 @@
 	media="screen" />
 <script src="scripts/jquery.tools.min.js"></script>
 
-<title>TUCANA: The list of constellations</title>
+<title>TUCANA: Details of the constellation</title>
 </head>
 <body>
-
 	<div id="menubar">
 		<span class="logo">&nbsp;</span>
 		<div class="entries">
@@ -33,47 +32,44 @@
 		</div>
 	</div>
 
-	<br />
-	<br />
-	<br />
-
 	<div id="content">
 		<h1 wicket:id="title">Page Title</h1>
-		<table class="datatable">
-			<thead>
-				<tr>
-					<th><wicket:message key="content.datatable.head.1">Name</wicket:message></th>
-					<th><wicket:message key="content.datatable.head.2">Genetive Name</wicket:message></th>
-					<th><wicket:message key="content.datatable.head.3">Code</wicket:message></th>
-					<th>&nbsp;</th>
-				</tr>
-			</thead>
+		<table class="datatable detailview">
 			<tbody>
-				<tr wicket:id="datatable" class="dtt">
-					<td><span wicket:id=c_name>[c_name]</span></td>
-					<td><span wicket:id="c_gen_name">[c_gen_name]</span></td>
-					<td><span wicket:id="c_code">[c_code]</span></td>
-					<td><a wicket:id="c_detail_link"><wicket:message
-								key="content.datatable.body.detail.label">Details</wicket:message></a></td>
+				<tr>
+					<th>
+						<wicket:message key="content.detailview.body.name.label">Name</wicket:message>:
+					</th>
+					<td wicket:id="cd_name_label">Name</td>
+					<th><wicket:message key="content.detailview.body.code.label">Code</wicket:message>:</th>
+					<td wicket:id="cd_code_label">Code</td>
+				</tr>
+				<tr>
+					<th><wicket:message key="content.detailview.body.gen_name.label">Genitive Name</wicket:message>:</th>
+					<td wicket:id="cd_gen_name_label">Gen Name</td>
+					<th><wicket:message key="content.detailview.body.author.label">Author</wicket:message>:</th>
+					<td wicket:id="cd_author_label">Code</td>
+				</tr>
+				<tr>
+					<th><wicket:message key="content.detailview.body.hemisphere.label">Hemisphere</wicket:message>:</th>
+					<td wicket:id="cd_hemisphere_label">Hemisphere</td>
+					<th><wicket:message key="content.detailview.body.area.label">Area</wicket:message>:</th>
+					<td wicket:id="cd_area_label">Area</td>
+				</tr>
+				<tr>
+					<th>Description:</th>
+					<td colspan="3" wicket:id="cd_description_label" class="external_links">Description</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-
-
-
-
-
 
 	<script>
 		$(" #menubar .entries li[title]").tooltip({
 			position : "bottom center",
 			effect : "fade"
 		});
-		$(" #content .datatable tbody tr td a[title]").tooltip({
-			position : "bottom left",
-			effect : "fade"
-		});
+		$(".external_links a").attr("target","_blank");
 	</script>
 
 </body>

@@ -15,30 +15,40 @@ import java.util.List;
  */
 @Service
 public class ConstellationServiceImpl implements ConstellationService {
-    @Inject
-    private ConstellationRepository constellationRepository;
+	@Inject
+	private ConstellationRepository constellationRepository;
 
-    /**
-     * This service method finds all constellation. This should be 88.
-     *
-     * @return A list with all Constellation
-     */
-    public List<Constellation> findAllConstellations() {
-        List<Constellation> constellations;
+	/**
+	 * This service method finds all constellation. This should be 88.
+	 * 
+	 * @return A list with all Constellation
+	 */
+	public List<Constellation> findAllConstellations() {
+		List<Constellation> constellations;
 
-        constellations = constellationRepository.findAll(new Sort(Direction.ASC, "code"));
-        if (constellations == null) {
-            constellations = new ArrayList<Constellation>(0);
-        }
-        return constellations;
-    }
+		constellations = constellationRepository.findAll(new Sort(
+				Direction.ASC, "code"));
+		if (constellations == null) {
+			constellations = new ArrayList<Constellation>(0);
+		}
+		return constellations;
+	}
 
-    public Constellation persistConstellation(Constellation constellation2Persist) {
-        if (constellation2Persist == null) {
-            return null;
-        }
+	public Constellation persistConstellation(
+			Constellation constellation2Persist) {
+		if (constellation2Persist == null) {
+			return null;
+		}
 
-        constellationRepository.save(constellation2Persist);
-        return constellation2Persist;
-    }
+		constellationRepository.save(constellation2Persist);
+		return constellation2Persist;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.tucana.service.ConstellationService#findConstellationById(java.lang.String)
+	 */
+	@Override
+	public Constellation findConstellationByCode(String code) {
+		return constellationRepository.findByCode(code);
+	}
 }
