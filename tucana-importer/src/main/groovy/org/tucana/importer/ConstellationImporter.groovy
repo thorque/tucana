@@ -5,7 +5,7 @@ import org.htmlcleaner.SimpleXmlSerializer
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.tucana.domain.Constellation
-import org.tucana.service.ConstellationServiceImpl
+import org.tucana.service.ConstellationService
 
 /**
  * This import retrieves a Wikipedia page with a table of all constellations. This table will be parsed with XPath
@@ -55,7 +55,7 @@ class ConstellationImporter {
      * Builds a Spring {@link ApplicationContext} and retrieve the {@link org.tucana.service.ConstellationService}.
      * @return The Spring-managed {@link org.tucana.service.ConstellationService}
      */
-    private ConstellationServiceImpl getConstellationService() {
+    private ConstellationService getConstellationService() {
         ApplicationContext applicationContext =
             new ClassPathXmlApplicationContext("/META-INF/spring/importer-context.xml")
 
@@ -107,7 +107,7 @@ class ConstellationImporter {
             constellation.authorYear = cells[6].text() as int
             constellation.area = toDouble(cells[7].text())
 
-            println "${c}.: $constellation"
+            //println "${c}.: $constellation"
             service.persistConstellation constellation
             createSQLDataScripts(constellation)
 

@@ -13,7 +13,6 @@
     <name>TUCANA [IMPORTER]</name>
 
     <dependencies>
-
         <dependency>
             <groupId>org.tucana</groupId>
             <artifactId>tucana-impl</artifactId>
@@ -34,14 +33,29 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.16</version>
         </dependency>
+        <dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<compilerId>groovy-eclipse-compiler</compilerId>
+					<verbose>true</verbose>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-eclipse-compiler</artifactId>
+						<version>2.6.0-01</version>
+					</dependency>
+				</dependencies>
+			</plugin>
         </plugins>
     </build>
 

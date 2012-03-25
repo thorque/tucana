@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet author="Thorsten Kamann" id="#1">
+		<createTable tableName="CONSTELLATIONS">
+			<column name="id" autoIncrement="true" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="varchar(50)" />
+			<column name="code" type="varchar(3)" />
+			<column name="genitiveName" type="varchar(50)" />
+			<column name="hemisphere" type="varchar(3)" />
+			<column name="author" type="varchar(20)" />
+			<column name="authorYear" type="int" />
+			<column name="area" type="double" />
+			<column name="description" type="clob" />
+		</createTable>
+	</changeSet>
+
+	<changeSet author="Thorsten Kamann" id="#7">
+		<createTable tableName="CONSTELLATION_NAMES">
+			<column name="id" autoIncrement="true" type="BIGINT">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="lang" type="varchar(3)" />
+			<column name="name" type="varchar(50)" />
+		</createTable>
+
+		<createTable tableName="CONSTELLATIONS_CONSTELLATION_NAMES">
+			<column name="CONSTELLATIONS_ID" type="bigint"/>
+			<column name="NAMES_ID" type="bigint"/>
+		</createTable>
+
+		<addForeignKeyConstraint  constraintName="ccn_cid_cnid"
+			referencedTableName="CONSTELLATIONS" baseColumnNames="CONSTELLATIONS_ID"
+			baseTableName="CONSTELLATIONS_CONSTELLATION_NAMES" referencedColumnNames="id" />
+			
+		<addForeignKeyConstraint constraintName="ccn_cnid_cid"
+			referencedTableName="CONSTELLATION_NAMES" baseColumnNames="NAMES_ID"
+			baseTableName="CONSTELLATIONS_CONSTELLATION_NAMES" referencedColumnNames="id" />
+	</changeSet>
+
+</databaseChangeLog>

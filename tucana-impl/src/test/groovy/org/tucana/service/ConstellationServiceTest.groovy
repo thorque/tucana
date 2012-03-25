@@ -29,6 +29,20 @@ class ConstellationServiceTest {
 		Assert.assertEquals(0,
 				new ConstellationServiceImpl(constellationRepository: repository).findAllConstellations().size())
 	}
+	
+	@Test
+	final void "test whether the ConstellationService returns a list with constellations with resolved names properly"() {
+		def result = []
+		2.times {
+			result << new Constellation(code: "cd$it", names: [])
+		}
+		def repository = [findAll: {result}] as ConstellationRepository
+
+		Assert.assertEquals(2,
+				new ConstellationServiceImpl(constellationRepository: repository).findAllConstellations().size())
+	}
+	
+	
 
 	@Test
 	final void "test whether the ConstellationService can find one constellation by its code"(){

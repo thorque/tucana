@@ -4,14 +4,18 @@
 package org.tucana.web;
 
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.list.AbstractItem;
+import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.tucana.domain.Constellation;
+import org.tucana.domain.ConstellationName;
 import org.tucana.service.ConstellationService;
 
 /**
@@ -49,6 +53,7 @@ public class ConstellationDetail extends WebPage {
 		super.onInitialize();
 		addTitle();
 		addDataLabels();
+		addNameLabels();
 	}
 	
 	protected void addTitle(){
@@ -68,6 +73,15 @@ public class ConstellationDetail extends WebPage {
 		add(new Label("cd_description_label", constellation.getDescription()).setEscapeModelStrings(false));
 	}
 	
+	protected void addNameLabels(){
+		List<ConstellationName> names = constellation.getNames();
+		for (ConstellationName name : names) {
+			add(new Label("cd_names_"+name.getLang(), name.getName()));
+		}
+		
+		add(new Label("cd_names_title", new StringResourceModel("content.names.title", null,
+				new Object[] { String.valueOf(constellation.getName()) })));
+	}
 	
 
 }

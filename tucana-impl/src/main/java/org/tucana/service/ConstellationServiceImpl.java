@@ -3,6 +3,8 @@ package org.tucana.service;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.tucana.domain.Constellation;
 import org.tucana.repository.ConstellationRepository;
 
@@ -14,14 +16,14 @@ import java.util.List;
  * Implementation of the ConstellationService interface.
  */
 @Service
+@Transactional
 public class ConstellationServiceImpl implements ConstellationService {
 	@Inject
 	private ConstellationRepository constellationRepository;
 
-	/**
-	 * This service method finds all constellation. This should be 88.
-	 * 
-	 * @return A list with all Constellation
+	
+	/* (non-Javadoc)
+	 * @see org.tucana.service.ConstellationService#findAllConstellations()
 	 */
 	public List<Constellation> findAllConstellations() {
 		List<Constellation> constellations;
@@ -33,7 +35,25 @@ public class ConstellationServiceImpl implements ConstellationService {
 		}
 		return constellations;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.tucana.service.ConstellationService#findAllConstellationsWithNames()
+	 */
+	@Override
+	public List<Constellation> findAllConstellationsWithNames() {
+		List<Constellation> constellations;
+		
+		constellations = findAllConstellations();
+		for (Constellation constellation : constellations) {
+			constellation.getNames().size();
+		}
+		
+		return constellations;
+	}
 
+	/* (non-Javadoc)
+	 * @see org.tucana.service.ConstellationService#persistConstellation(org.tucana.domain.Constellation)
+	 */
 	public Constellation persistConstellation(
 			Constellation constellation2Persist) {
 		if (constellation2Persist == null) {

@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-    <context:property-placeholder location="classpath:/db.properties"/>
+	<context:property-placeholder location="classpath:/db.properties" />
 
-    <jdbc:embedded-database id="dataSource" type="HSQL">
-        <jdbc:script location="database/schema.sql"/>
-        <jdbc:script location="database/constellation.sql"/>
-        <jdbc:script location="database/constellation_details.sql"/>
-    </jdbc:embedded-database>
+	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase"
+		p:dataSource-ref="dataSource" p:changeLog="classpath:/db-migration/db-changelog-master.xml" p:dropFirst="true"/>
 
 
-    <import resource="classpath:META-INF/spring/orm-context.xml"/>
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:url="${db.url}" p:driverClassName="${db.driver}" p:password="${db.password}"
+		p:username="${db.username}" />
+
+	<jdbc:initialize-database data-source="dataSource" >
+		<jdbc:script location="classpath:database/constellation.sql" />
+		<jdbc:script location="classpath:database/constellation_details.sql" />
+	</jdbc:initialize-database>
+
+	<import resource="classpath:META-INF/spring/orm-context.xml" />
 </beans>

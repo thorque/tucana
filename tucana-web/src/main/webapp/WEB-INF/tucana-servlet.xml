@@ -10,6 +10,8 @@
 
 
 	<context:property-placeholder location="classpath:/db.properties" />
+	
+	<bean id="liquibase" class="java.lang.String"/>
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"

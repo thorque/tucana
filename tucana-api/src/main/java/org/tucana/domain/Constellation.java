@@ -1,14 +1,20 @@
 package org.tucana.domain;
 
-import lombok.Getter;
-import lombok.ToString;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+
+import lombok.Getter;
+import lombok.ToString;
 
 /**
  * A constellation is a group of stars with a unique name. There are 88 constellations defined by the IAU.
@@ -37,9 +43,16 @@ public class Constellation {
      */
     @Getter
     private String name;
+    
+    /**
+     * @return A {@link List} with the constellation names in the foreign language
+     */
+    @OneToMany(cascade=CascadeType.ALL)
+    @Getter
+    private List<ConstellationName> names = new ArrayList<ConstellationName>();
 
     /**
-     * Evey constellation needs the genitive variant of its name. This is used for the title of the brightest stars
+     * Every constellation needs the genitive variant of its name. This is used for the title of the brightest stars
      * in a constellation (see Bayer names)
      *
      * @return The name in the genitive form

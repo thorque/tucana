@@ -12,7 +12,7 @@ import org.htmlcleaner.SimpleXmlSerializer
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.tucana.domain.Constellation;
-import org.tucana.service.ConstellationServiceImpl;
+import org.tucana.service.ConstellationService
 
 /**
  * @author kamann
@@ -37,7 +37,7 @@ class ConstellationDescriptionImporter {
 			sqlFile.text = ""
 		}
 		
-		def constellations = service.findAllConstellations()
+		def constellations = service.findAllConstellationsWithNames()
 		constellations.each {
 			it.description =  getAbstract(it)
 			println it.description
@@ -97,7 +97,7 @@ class ConstellationDescriptionImporter {
 	* Builds a Spring {@link ApplicationContext} and retrieve the {@link org.tucana.service.ConstellationService}.
 	* @return The Spring-managed {@link org.tucana.service.ConstellationService}
 	*/
-   private ConstellationServiceImpl getConstellationService() {
+   private ConstellationService getConstellationService() {
 	   ApplicationContext applicationContext =
 		   new ClassPathXmlApplicationContext("/META-INF/spring/importer-context.xml")
 
