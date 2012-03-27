@@ -13,7 +13,9 @@ driver = {
 	driver.javascriptEnabled = true
 	driver
 }
-System.properties['geb.build.baseUrl'] ="http://localhost:8080/tucana-web"
+
+if (!System.properties.'geb.build.baseUrl')
+	System.properties['geb.build.baseUrl'] ="http://localhost:8080/tucana-web"
 
 environments {
 	

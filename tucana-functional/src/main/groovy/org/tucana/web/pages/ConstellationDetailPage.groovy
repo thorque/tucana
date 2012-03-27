@@ -23,7 +23,6 @@ class ConstellationDetailPage extends Page {
    static at = { title == "TUCANA: Details of the constellation" }
    
    static content = {
-	   
 	   /**
 	    * @returns The table with the css-class <code>detailview</code>
 	    */

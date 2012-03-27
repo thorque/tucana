@@ -20,15 +20,14 @@ import org.tucana.service.ConstellationService
  */
 class ConstellationDescriptionImporter {
 	private File sqlFile = new File("./target/gen-data/constellation_details.sql")
-	private File targetFile = new File("../tucana-integration/src/test/resources/database/constellation_details.sql")
+	private File targetFile = new File("../tucana-api/src/main/resources/db-migration/data/constellation_details.sql")
 	
 	public static void main(def args){
 		new ConstellationDescriptionImporter().doImport()
 	}
 	
 	public void doImport() {
-		ConstellationDescriptionImporter importer = new ConstellationDescriptionImporter()
-		def service = importer.getConstellationService()
+		def service = getConstellationService()
 		
 		if (!sqlFile.exists()) {
 			sqlFile.parentFile.mkdirs()

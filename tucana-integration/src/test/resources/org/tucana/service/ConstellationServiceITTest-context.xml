@@ -17,8 +17,9 @@
 		p:username="${db.username}" />
 
 	<jdbc:initialize-database data-source="dataSource" >
-		<jdbc:script location="classpath:database/constellation.sql" />
-		<jdbc:script location="classpath:database/constellation_details.sql" />
+		<jdbc:script location="classpath:db-migration/data/constellation.sql" />
+		<jdbc:script location="classpath:db-migration/data/constellation_details.sql" />
+		<jdbc:script location="classpath:db-migration/data/constellation_names.sql" />
 	</jdbc:initialize-database>
 
 	<import resource="classpath:META-INF/spring/orm-context.xml" />

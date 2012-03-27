@@ -3,11 +3,14 @@
  */
 package org.tucana.importer
 
+import java.io.File;
+
 import org.hibernate.Hibernate
 import org.htmlcleaner.HtmlCleaner
 import org.htmlcleaner.SimpleXmlSerializer
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
+import org.tucana.domain.Constellation
 import org.tucana.domain.ConstellationName
 import org.tucana.service.ConstellationService
 import org.tucana.service.ConstellationServiceImpl
@@ -18,6 +21,8 @@ import org.tucana.service.ConstellationServiceImpl
  */
 class ConstellationNamesImporter {
 	private dataWithNamedConstellations
+	private File sqlFile = new File("./target/gen-data/constellation_names.sql")
+	private File targetFile = new File("../tucana-api/src/main/resources/db-migration/data/constellation_names.sql")
 
 	static main(args) {
 		new ConstellationNamesImporter().doImport()
@@ -27,6 +32,12 @@ class ConstellationNamesImporter {
 		def service = getConstellationService()
 		def constellations = service.findAllConstellationsWithNames()
 
+		if (!sqlFile.exists()) {
+			sqlFile.parentFile.mkdirs()
+			sqlFile.createNewFile()
+		}else{
+			sqlFile.text = ""
+		}
 		
 		constellations.each{
 			Hibernate.initialize(it)
@@ -34,10 +45,17 @@ class ConstellationNamesImporter {
 			it.names = []
 			service.persistConstellation(it)
 			names.each{key, value ->
-				it.names << new ConstellationName(lang: key, name: value)
+				def cn = new ConstellationName(lang: key, name: value)
+				it.names << cn
 			}
 			service.persistConstellation(it)
 		}
+		
+		constellations = service.findAllConstellationsWithNames()
+		constellations.each{
+			createSQLDataScripts(it)
+		}
+		new AntBuilder().copy(file: sqlFile, tofile: targetFile)
 	}
 
 	private Map getAllNamesForConstellation(String code){
@@ -46,7 +64,7 @@ class ConstellationNamesImporter {
 			dataWithNamedConstellations = page.body.'**'.find { it.name() == "table" && it.@class.text().contains("wikitable sortable") }.tbody.tr
 		}
 
-		println code
+		println "Processing code"
 		def row = dataWithNamedConstellations.'**'.find { it.name = "td" && it.text().toLowerCase() == "$code" }.parent()
 		Map names = [:]
 		names.de = row.td[1].text()
@@ -56,6 +74,19 @@ class ConstellationNamesImporter {
 		names.'it' = row.td[8].text()
 		//names.es = row.td[12].text()
 		return names
+	}
+	
+	private void createSQLDataScripts(Constellation c) {
+		String sql = ""
+		
+		c.names.each{
+			def name = it.name
+			name = name.replaceAll("'", "«")
+			sql = "INSERT INTO Constellation_Names VALUES($it.id, '$it.lang', '${name}');\n"
+			sql += "INSERT INTO CONSTELLATIONS_CONSTELLATION_NAMES VALUES($c.id, $it.id);"
+			sqlFile.text += "\n" + sql
+		}
+
 	}
 
 	/**

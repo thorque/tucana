@@ -17,7 +17,7 @@ import org.tucana.service.ConstellationService
 class ConstellationImporter {
     private String url = "http://de.wikipedia.org/wiki/Liste_der_Sternbilder"
     private File sqlFile = new File("./target/gen-data/data.sql")
-    private File targetFile = new File("../tucana-integration/src/test/resources/database/constellation.sql")
+    private File targetFile = new File("../tucana-api/src/main/resources/db-migration/data/constellation.sql")
 
     /**
      * Main entry point of this importer. No args are needed, because this importer is self-configuring.
@@ -28,10 +28,9 @@ class ConstellationImporter {
     }
 
     public void doImport() {
-        ConstellationImporter importer = new ConstellationImporter()
-        def service = importer.getConstellationService()
+        def service = getConstellationService()
 
-        def rows = importer.constellationRows
+        def rows = constellationRows
 
         if (!sqlFile.exists()) {
             sqlFile.parentFile.mkdirs()
@@ -41,7 +40,7 @@ class ConstellationImporter {
         }
 
         rows.eachWithIndex { row, c ->
-            importer.createAndPersistConstellation(row, service, c)
+            createAndPersistConstellation(row, service, c)
         }
 
         println "Updating data file with the constellation data"
@@ -117,7 +116,7 @@ class ConstellationImporter {
     private void createSQLDataScripts(Constellation c) {
         String sql = ""
 
-        sql = "INSERT INTO CONSTELLATIONS VALUES(null, '$c.name', '$c.code', '$c.genitiveName', '$c.hemisphere', " +
+        sql = "INSERT INTO CONSTELLATIONS VALUES($c.id, '$c.name', '$c.code', '$c.genitiveName', '$c.hemisphere', " +
                 "'$c.author', $c.authorYear, $c.area, null );"
         sqlFile.text += "\n" + sql
 

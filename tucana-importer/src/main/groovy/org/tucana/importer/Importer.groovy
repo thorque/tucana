@@ -24,6 +24,5 @@ class Importer {
 		importerClasses.each {
 			("org.tucana.importer.$it" as Class).newInstance().doImport()
 		}
-		
 	}
 }
