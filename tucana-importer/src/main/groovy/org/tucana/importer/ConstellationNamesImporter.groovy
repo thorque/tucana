@@ -81,7 +81,7 @@ class ConstellationNamesImporter {
 		
 		c.names.each{
 			def name = it.name
-			name = name.replaceAll("'", "«")
+			name = name.replaceAll("'", "Â´")
 			sql = "INSERT INTO Constellation_Names VALUES($it.id, '$it.lang', '${name}');\n"
 			sql += "INSERT INTO CONSTELLATIONS_CONSTELLATION_NAMES VALUES($c.id, $it.id);"
 			sqlFile.text += "\n" + sql

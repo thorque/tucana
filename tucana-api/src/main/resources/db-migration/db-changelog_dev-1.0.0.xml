@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 	<changeSet author="Thorsten Kamann" id="#1">
 		<createTable tableName="CONSTELLATIONS">
@@ -31,17 +31,60 @@
 		</createTable>
 
 		<createTable tableName="CONSTELLATIONS_CONSTELLATION_NAMES">
-			<column name="CONSTELLATIONS_ID" type="bigint"/>
-			<column name="NAMES_ID" type="bigint"/>
+			<column name="CONSTELLATIONS_ID" type="bigint" />
+			<column name="NAMES_ID" type="bigint" />
 		</createTable>
 
-		<addForeignKeyConstraint  constraintName="ccn_cid_cnid"
+		<addForeignKeyConstraint constraintName="ccn_cid_cnid"
 			referencedTableName="CONSTELLATIONS" baseColumnNames="CONSTELLATIONS_ID"
-			baseTableName="CONSTELLATIONS_CONSTELLATION_NAMES" referencedColumnNames="id" />
-			
+			baseTableName="CONSTELLATIONS_CONSTELLATION_NAMES"
+			referencedColumnNames="id" />
+
 		<addForeignKeyConstraint constraintName="ccn_cnid_cid"
 			referencedTableName="CONSTELLATION_NAMES" baseColumnNames="NAMES_ID"
-			baseTableName="CONSTELLATIONS_CONSTELLATION_NAMES" referencedColumnNames="id" />
+			baseTableName="CONSTELLATIONS_CONSTELLATION_NAMES"
+			referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet author="Thorsten Kamann" id="#9">
+		<createTable tableName="STARS">
+			<column name="id" autoIncrement="true" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="code" type="varchar(3)" />
+			<column name="name" type="varchar(50)" />
+			<column name="hr" type="int">
+				<constraints nullable="true" />
+			</column>
+			<column name="bayer" type="varchar(5)" />
+			<column name="flamsteed" type="int">
+				<constraints nullable="true" />
+			</column>
+			<column name="hd" type="int">
+				<constraints nullable="true" />
+			</column>
+			<column name="sao" type="int">
+				<constraints nullable="true" />
+			</column>
+			<column name="fk5" type="int">
+				<constraints nullable="true" />
+			</column>
+			<column name="varId" type="varchar(50)" />
+			<column name="ra" type="double" />
+			<column name="de" type="double" />
+			<column name="pmRa" type="double" />
+			<column name="pmDe" type="double" />
+			<column name="parsec" type="double">
+				<constraints nullable="true" />
+			</column>
+			<column name="mag" type="double">
+				<constraints nullable="true" />
+			</column>
+			<column name="mk" type="varchar(20)" />
+			<column name="multiple" type="int">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
 	</changeSet>
 
 </databaseChangeLog>
