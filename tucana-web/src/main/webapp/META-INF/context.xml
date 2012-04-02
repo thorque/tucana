@@ -1,0 +1,7 @@
+<Context path="/tucana-web">
+
+	<Resource name="jdbc/db" auth="Container" type="javax.sql.DataSource"
+               maxActive="100" maxIdle="30" maxWait="10000" 
+               username="${db_username}" password="${db_password}" driverClassName="${db_driver}"
+               url="${db_url}"/>
+</Context>

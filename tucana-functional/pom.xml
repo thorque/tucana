@@ -177,7 +177,10 @@
 						<append>false</append>
 						<log>${project.build.directory}/cargo/logs/cargo.log</log>
 						<systemProperties>
-							<db_suffix>_func</db_suffix>
+							<db_driver>${db.driver}</db_driver>
+							<db_url>${db.url}</db_url>
+							<db_username>${db.username}</db_username>
+							<db_password>${db.password}</db_password>
 						</systemProperties>
 					</container>
 					<configuration>
