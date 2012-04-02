@@ -156,7 +156,7 @@
 	
 	<distributionManagement>
 		<repository>
-			<id>release</id>
+			<id>tucana.release</id>
 			<name>TUCANA Release Repository</name>
 			<url>https://repository-tucana.forge.cloudbees.com/release/</url>
 			<layout>default</layout>
