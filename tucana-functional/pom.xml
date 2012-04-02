@@ -115,6 +115,7 @@
 							<username>${db.username}</username>
 							<password>${db.password}</password>
 							<dropFirst>true</dropFirst>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
 						</configuration>
 					</execution>
 				</executions>
