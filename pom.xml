@@ -137,4 +137,32 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>rc-build</id>
+			<properties>
+				<build-number>1</build-number>
+				<rc-build-version>
+					${parsedVersion.majorVersion}.${parsedVersion.minorVersion}-${parsedVersion.incrementalVersion}-b${build-number}
+				</rc-build-version>
+				<includesList>org.tucana:*</includesList>
+				<newVersion>${rc-build-version}</newVersion>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.5</version>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>versions-maven-plugin</artifactId>
+						<version>1.2</version>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
