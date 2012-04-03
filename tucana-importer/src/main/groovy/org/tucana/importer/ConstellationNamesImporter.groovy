@@ -3,7 +3,7 @@
  */
 package org.tucana.importer
 
-import java.io.File;
+import java.io.File
 
 import org.hibernate.Hibernate
 import org.htmlcleaner.HtmlCleaner
@@ -12,8 +12,8 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.tucana.domain.Constellation
 import org.tucana.domain.ConstellationName
+import org.tucana.importer.tools.DownloadCategory
 import org.tucana.service.ConstellationService
-import org.tucana.service.ConstellationServiceImpl
 
 /**
  * @author kamann
@@ -23,6 +23,7 @@ class ConstellationNamesImporter {
 	private dataWithNamedConstellations
 	private File sqlFile = new File("./target/gen-data/constellation_names.sql")
 	private File targetFile = new File("../tucana-api/src/main/resources/db-migration/data/constellation_names.sql")
+	private File spiderDir = new File("src/main/resources/spider/constellation_names")
 
 	static main(args) {
 		new ConstellationNamesImporter().doImport()
@@ -38,7 +39,7 @@ class ConstellationNamesImporter {
 		}else{
 			sqlFile.text = ""
 		}
-		
+
 		constellations.each{
 			Hibernate.initialize(it)
 			def names = getAllNamesForConstellation(it.code)
@@ -50,11 +51,9 @@ class ConstellationNamesImporter {
 			}
 			service.persistConstellation(it)
 		}
-		
+
 		constellations = service.findAllConstellationsWithNames()
-		constellations.each{
-			createSQLDataScripts(it)
-		}
+		constellations.each{ createSQLDataScripts(it) }
 		new AntBuilder().copy(file: sqlFile, tofile: targetFile)
 	}
 
@@ -75,10 +74,10 @@ class ConstellationNamesImporter {
 		//names.es = row.td[12].text()
 		return names
 	}
-	
+
 	private void createSQLDataScripts(Constellation c) {
 		String sql = ""
-		
+
 		c.names.each{
 			def name = it.name
 			name = name.replaceAll("'", "´")
@@ -86,7 +85,6 @@ class ConstellationNamesImporter {
 			sql += "INSERT INTO CONSTELLATIONS_CONSTELLATION_NAMES VALUES($c.id, $it.id);"
 			sqlFile.text += "\n" + sql
 		}
-
 	}
 
 	/**
@@ -98,7 +96,7 @@ class ConstellationNamesImporter {
 				new ClassPathXmlApplicationContext("/META-INF/spring/importer-context.xml")
 
 		def proxy = (ConstellationService) applicationContext.getBean("constellationServiceImpl")
-		
+
 		return proxy
 	}
 
@@ -107,9 +105,16 @@ class ConstellationNamesImporter {
 	 * @param url The {@link URL} of the document to read
 	 * @return A GPathResult with the content of the Wikipedia document
 	 */
-	private def getCleanedHtml(String url) {
+	private def getCleanedHtml(String address) {
+		def url = address.toURL()
+		def spiderDoc = new File(spiderDir, url.path+".html")
+		if (!spiderDoc.exists()){
+			spiderDoc.parentFile.mkdirs()
+			use(DownloadCategory){ spiderDoc << url }
+		}
+
 		def cleaner = new HtmlCleaner()
-		def node = cleaner.clean(url.toURL())
+		def node = cleaner.clean(new File(spiderDir, url.path+".html").toURI().toURL())
 
 		def props = cleaner.getProperties()
 		def serializer = new SimpleXmlSerializer(props)

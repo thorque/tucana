@@ -5,6 +5,7 @@ import org.htmlcleaner.SimpleXmlSerializer
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.tucana.domain.Constellation
+import org.tucana.importer.tools.DownloadCategory;
 import org.tucana.service.ConstellationService
 
 /**
@@ -18,6 +19,7 @@ class ConstellationImporter {
     private String url = "http://de.wikipedia.org/wiki/Liste_der_Sternbilder"
     private File sqlFile = new File("./target/gen-data/data.sql")
     private File targetFile = new File("../tucana-api/src/main/resources/db-migration/data/constellation.sql")
+	private File spiderDir = new File("src/main/resources/spider/constellation")
 
     /**
      * Main entry point of this importer. No args are needed, because this importer is self-configuring.
@@ -131,9 +133,18 @@ class ConstellationImporter {
      * @param url The {@link URL} of the document to read
      * @return A GPathResult with the content of the Wikipedia document
      */
-    private def getCleanedHtml(String url) {
+    private def getCleanedHtml(String address) {
+		def url = address.toURL()
+		def spiderDoc = new File(spiderDir, url.path+".html")
+		if (!spiderDoc.exists()){
+			spiderDoc.parentFile.mkdirs()
+			use(DownloadCategory){
+				spiderDoc << url
+			}
+		}
+		
         def cleaner = new HtmlCleaner()
-        def node = cleaner.clean(url.toURL())
+        def node = cleaner.clean(new File(spiderDir, url.path+".html").toURI().toURL())
 
         // Convert from HTML to XML
         def props = cleaner.getProperties()

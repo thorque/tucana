@@ -12,6 +12,7 @@ import org.htmlcleaner.SimpleXmlSerializer
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.tucana.domain.Constellation;
+import org.tucana.importer.tools.DownloadCategory
 import org.tucana.service.ConstellationService
 
 /**
@@ -21,6 +22,7 @@ import org.tucana.service.ConstellationService
 class ConstellationDescriptionImporter {
 	private File sqlFile = new File("./target/gen-data/constellation_details.sql")
 	private File targetFile = new File("../tucana-api/src/main/resources/db-migration/data/constellation_details.sql")
+	private File spiderDir = new File("src/main/resources/spider/constellation_details/en")
 	
 	public static void main(def args){
 		new ConstellationDescriptionImporter().doImport()
@@ -84,7 +86,7 @@ class ConstellationDescriptionImporter {
 	}
 	
 	private String getName(Constellation constellation){
-		def corrections = [boo: URLEncoder.encode("Boštes", "UTF-8"),
+		def corrections = [boo: URLEncoder.encode("Bootes", "UTF-8"),
 			lac: "Lacerta"]
 		def name = (corrections[constellation.code])? corrections[constellation.code]: constellation.name+"_(constellation)"
 		
@@ -108,9 +110,18 @@ class ConstellationDescriptionImporter {
    * @param url The {@link URL} of the document to read
    * @return A GPathResult with the content of the Wikipedia document
    */
-  private def getCleanedHtml(String url) {
+  private def getCleanedHtml(String address) {
+	  def url = address.toURL()
+	  def spiderDoc = new File(spiderDir, url.path+".html")
+	  if (!spiderDoc.exists()){
+		  spiderDoc.parentFile.mkdirs()
+		  use(DownloadCategory){
+			  spiderDoc << url
+		  }
+	  }
+	  
 	  def cleaner = new HtmlCleaner()
-	  def node = cleaner.clean(url.toURL(), "UTF-8")
+	  def node = cleaner.clean(new File(spiderDir, url.path+".html").toURI().toURL(), "UTF-8")
 	 
 	  def props = cleaner.getProperties()
 	  def serializer = new SimpleXmlSerializer(props)

@@ -19,7 +19,10 @@ class Importer {
 		
 		log.info("Starting the TUCANA Importer")
 		
-		def importerClasses = ["ConstellationImporter", "ConstellationDescriptionImporter", "ConstellationNamesImporter"]
+		def importerClasses = ["ConstellationImporter", 
+			"ConstellationDescriptionImporter", 
+			"ConstellationNamesImporter",
+			"BrightestStarCatalogueImporter"]
 		
 		importerClasses.each {
 			("org.tucana.importer.$it" as Class).newInstance().doImport()
