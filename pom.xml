@@ -170,7 +170,7 @@
 			<properties>
 				<build-number>1</build-number>
 				<rc-build-version>
-					${parsedVersion.majorVersion}.${parsedVersion.minorVersion}-${parsedVersion.incrementalVersion}-b${build-number}
+					${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-b${build-number}
 				</rc-build-version>
 				<includesList>org.tucana:*</includesList>
 				<newVersion>${rc-build-version}</newVersion>
